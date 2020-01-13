@@ -1,0 +1,34 @@
+<div class="example-loading-shade"
+      *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+
+<form class="ui form ui segment" id="add-form" [formGroup]="editClienteForm" (ngSubmit)="onClienteEditFormSubmit()" style="margin: 0px auto;">
+    <h4 class="ui dividing header">Editar cliente</h4>
+    <div class="field" *ngFor="let item of clienteData">
+          <label>Cédula</label>
+          <div class="field">
+            <input type="text" formControlName="cedula"  [(ngModel)]="item.cedula">
+          </div>
+          <label>Nombre</label>
+          <div class="field">
+            <input type="text" formControlName="nombre"  [(ngModel)]="item.nombre">
+          </div>
+          <label>Nombre</label>
+          <div class="field">
+            <input type="text" formControlName="apellido"  [(ngModel)]="item.apellido">
+          </div>
+          <label>Dirección</label>
+          <div class="field">
+            <input type="text" formControlName="direccion"  [(ngModel)]="item.direccion">
+          </div>
+          <label>Teléfono</label>
+          <div class="field">
+            <input type="text" formControlName="telefono"  [(ngModel)]="item.telefono">
+          </div>
+          
+      </div>
+      <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onClose()" style="margin-right: 10px">Close</button>
+      <button class="btn btn-info" [disabled]="!editClienteForm.valid" type="submit">Actualizar datos</button>
+</form>
+

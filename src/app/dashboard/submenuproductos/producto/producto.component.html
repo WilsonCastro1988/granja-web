@@ -1,0 +1,137 @@
+<section class="content-header">
+  <h1>
+    Productos
+    <small>gestión de productos</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="dashboard"><i class="fa fa-user"></i> Home</a></li>
+    <li class="active">Productos</li>
+  </ol>
+</section>
+
+<div class="example-loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form class="ui form ui segment" [formGroup]="productoForm" (ngSubmit)="onFormSubmit(productoForm.value)"
+        style="margin: 0px auto;">
+        <h4 class="ui dividing header">Administración de productos</h4>
+        <div class="two fields">
+          <div class="field">
+            <label>Proveedor</label>
+            <select formControlName="id_proveedor" class="ui fluid dropdown">
+              <option *ngFor="let item of dataProveedores" value="{{item.id_proveedor}}">{{item.nombre_proveedor}}
+              </option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Nombre producto</label>
+            <div class="field">
+              <input type="text" formControlName="nombre" placeholder="Ingrese el nombre">
+            </div>
+          </div>
+        </div>
+
+        <div class="three fields">
+          <div class="field">
+            <label>Cantidad</label>
+            <div class="field">
+              <input type="number" formControlName="cantidad">
+
+            </div>
+          </div>
+          <div class="field">
+            <label>Precio</label>
+            <div class="ui right labeled input">
+              <input type="text" formControlName="precio" placeholder="Ingrese el precio del producto..">
+              <div class="ui basic label">
+                $$
+              </div>
+            </div>
+          </div>
+          <div class="field">
+            <label>Presentación</label>
+            <div class="field">
+              <input type="text" formControlName="presentacion" placeholder="Presentación del producto">
+            </div>
+          </div>
+        </div>
+        <button class="btn btn-info" [disabled]="!productoForm.valid" type="submit">Guardar datos</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin-left: 10px;">Close</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <mat-toolbar >
+          <mat-toolbar-row>
+            <button mat-raised-button style="background-color: #00B5AD; color: white;" data-toggle="modal" data-target="#modal-default"><i class="ion-plus-circled"></i> Agregar producto</button>
+            <span class="spacer"></span>
+            <mat-form-field class="search">
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar...">
+            </mat-form-field>
+          </mat-toolbar-row>
+        </mat-toolbar>
+
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+                <ng-container matColumnDef="id_producto">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
+                  <td mat-cell *matCellDef="let data">{{data.id_producto}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="proveedor">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Proveedor </th>
+                  <td mat-cell *matCellDef="let data"> {{data.id_proveedor}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nombre">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre</th>
+                    <td mat-cell *matCellDef="let data"> {{data.nombre}} </td>
+                  </ng-container>
+
+                <ng-container matColumnDef="cantidad">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad</th>
+                  <td mat-cell *matCellDef="let data"> {{data.cantidad}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="precio">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Precio</th>
+                  <td mat-cell *matCellDef="let data"> {{data.precio}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="presentacion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> presentacion</th>
+                  <td mat-cell *matCellDef="let data"> {{data.presentacion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="opciones">
+                  <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Opciones </th>
+                  <td mat-cell *matCellDef="let data">
+                      <div class="ui buttons">
+                          <button class="ui small teal button" (click)="editProducto(data.id_producto)">Editar</button>
+                          <div class="or" data-text="o"></div>
+                          <button class="ui small red button" (click)="deleteProducto(data.id_producto)">Eliminar</button>
+                        </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="25" [showFirstLastButtons]>
+              </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </section>
+

@@ -1,0 +1,25 @@
+<div class="example-container mat-elevation-z8">
+  <div class="example-loading-shade"
+       *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/raza']"><mat-icon>list</mat-icon></a>
+  </div>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title><h2>{{tipo_raza}}</h2></mat-card-title>
+      <mat-card-subtitle>{{descripcion}}</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <dl>
+        <dt>Updated At:</dt>
+        <dd>{{raza.updated_at | date}}</dd>
+      </dl>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-flat-button color="primary" [routerLink]="['/raza-edit', raza._id_raza]"><mat-icon>edit</mat-icon></a>
+      <a mat-flat-button color="warn" (click)="deleteraza(raza._id_raza)"><mat-icon>delete</mat-icon></a>
+    </mat-card-actions>
+  </mat-card>
+</div>

@@ -1,0 +1,99 @@
+<section class="content-header">
+  <h1>
+    Razas
+    <small>gestión de razas</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="dashboard"><i class="fa fa-user"></i> Home</a></li>
+    <li class="active">Razas</li>
+  </ol>
+</section>
+
+<div class="example-loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <form class="ui form ui segment" [formGroup]="razaForm" (ngSubmit)="onFormSubmit(razaForm.value)"
+        style="margin: 0px auto;">
+        <h4 class="ui dividing header">Gestión de razas de animales</h4>
+        <div class="field">
+          <label>Nombre</label>
+          <div class="field">
+            <input type="text" formControlName="tipo_raza" name="shipping[tipo_raza]"
+              placeholder="Ingrese el nombre de la raza">
+            <mat-error>
+              <span *ngIf="!razaForm.get('tipo_raza').valid && razaForm.get('tipo_raza').touched">Por favor ingrese una
+                raza de animal</span>
+            </mat-error>
+          </div>
+          <div class="field">
+            <label>Descripcion</label>
+            <textarea rows="2" formControlName="descripcion"></textarea>
+            <mat-error>
+              <span *ngIf="!razaForm.get('descripcion').valid && razaForm.get('descripcion').touched">Por favor ingrese
+                una descripción</span>
+            </mat-error>
+          </div>
+        </div>
+        <button class="btn btn-info" [disabled]="!razaForm.valid" type="submit">Guardar datos</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin-left: 10px;">Close</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <mat-toolbar >
+          <mat-toolbar-row>
+            <button mat-raised-button style="background-color: #00B5AD; color: white;" data-toggle="modal" data-target="#modal-default"><i class="ion-plus-circled"></i> Agregar raza</button>
+            <span class="spacer"></span>
+            <mat-form-field class="search">
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar...">
+            </mat-form-field>
+          </mat-toolbar-row>
+        </mat-toolbar>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+                <ng-container matColumnDef="id_parcela">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Id_raza</th>
+                  <td mat-cell *matCellDef="let raza"> {{raza.id_raza}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="lugar">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                  <td mat-cell *matCellDef="let raza"> {{raza.tipo_raza}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="descripcion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion</th>
+                  <td mat-cell *matCellDef="let raza"> {{raza.descripcion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="opciones">
+                  <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Opciones </th>
+                  <td mat-cell *matCellDef="let raza">
+                    <div class="ui buttons">
+                      <button class="ui small teal button" (click)="editRaza(raza.id_raza)">Editar</button>
+                      <div class="or" data-text="o"></div>
+                      <button class="ui small red button" (click)="deleteRaza(raza.id_raza)">Eliminar</button>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="25" [showFirstLastButtons]>
+                </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </section>

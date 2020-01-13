@@ -1,0 +1,50 @@
+<div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  
+  <form class="ui form ui segment" id="add-form" [formGroup]="editProductoForm"  (ngSubmit)="onEditProductoFormSubmit()" style="margin: 0px auto;">
+    
+    <h4 class="ui dividing header">Editar proveedor</h4>
+    <div class="two fields" *ngFor="let item of productoData">
+      <div class="field">
+        <label>Tipo empleado</label>
+        <select formControlName="id_proveedor" [(ngModel)]="item.id_proveedor" class="ui fluid dropdown" >
+          <option *ngFor="let item of proveedores" [value]="item.id_proveedor">{{item.nombre_proveedor}}</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Nombre producto</label>
+        <div class="field">
+          <input type="text" formControlName="nombre"  [(ngModel)]="item.nombre"
+            placeholder="Ingrese el nombre del producto">
+        </div>
+      </div>
+    </div>
+  
+        
+    <div class="three fields" *ngFor="let item of productoData">
+      <div class="field">
+        <label>Cantidad</label>
+        <div class="field">
+          <input type="number" formControlName="cantidad" [(ngModel)]="item.cantidad" placeholder="Ingrese los nombres">
+        </div>
+      </div>
+      <div class="field">
+        <label>Precio</label>
+        <div class="field">
+          <input type="text" formControlName="precio" [(ngModel)]="item.precio" placeholder="Ingrese los apellidos">
+        </div>
+      </div>
+      <div class="field">
+        <label>Presentación</label>
+        <div class="field">
+          <input type="text" formControlName="presentacion" [(ngModel)]="item.presentacion" 
+            >
+        </div>
+      </div>
+    </div>
+
+    <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onClose()"
+      style="margin-right: 10px">Close</button>
+    <button class="btn btn-info" [disabled]="!editProductoForm.valid" type="submit">Actualizar datos</button>
+  </form>

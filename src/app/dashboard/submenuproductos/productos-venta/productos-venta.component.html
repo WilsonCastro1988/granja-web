@@ -1,0 +1,121 @@
+<section class="content-header">
+  <h1>
+    Productos de venta
+    <small>Stock de productos</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="dashboard"><i class="fa fa-user"></i> Home</a></li>
+    <li class="active">stock</li>
+  </ol>
+</section>
+
+<div class="modal fade" id="crearProducto">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form class="ui form ui segment" [formGroup]="productoForm" (ngSubmit)="onFormSubmit(productoForm.value)"
+        style="margin: 0px auto;">
+        <h4 class="ui dividing header">Gestión de productos de venta</h4>
+        <div class="field">
+            <div class="form-group">
+                <label for="sel1">Seleccione producto:</label>
+                <select class="form-control" formControlName="tipo_producto">
+                  <option value="Animal en pie" selected="true">Animal en pie</option>
+                  <option value="Leche">Leche</option>
+                  <option value="Carne">Carne</option>
+                </select>
+              </div>
+          <label>Costo</label>
+          <div class="field">
+            <input type="text" formControlName="costo" placeholder="Costo producto">
+          </div>
+          <div class="field">
+            <label>Cantidad</label>
+            <input type="number" formControlName="cantidad" >
+          </div>
+        </div>
+        <button class="btn btn-info" [disabled]="!productoForm.valid" type="submit">Guardar datos</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin-left: 10px;">Close</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="EditarPrecio">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <!-- <form class="ui form ui segment" [formGroup]="precioEditForm" (ngSubmit)="onFormSubmit(precioEditForm.value)" -->
+          <!-- style="margin: 0px auto;"> -->
+          <h4 class="ui dividing header" style="margin: 10px;">Cambiar precio del producto</h4>
+          <div class="field">
+
+            <div class="ui input focus" style="margin-left: 10px;">
+                <label>Producto</label>
+              <input type="text" style="margin-left: 10px;" [(ngModel)]="tipo_producto" placeholder="Nombre del producto">
+            </div><br><br>
+            <div class="ui input focus" style="margin-left: 10px;">
+              <label>Precio</label>
+              <input type="number" style="margin-left: 25px;" [(ngModel)]="precio" >
+            </div><br>
+          </div>
+          <button class="btn btn-info" style="margin: 10px;" >Guardar datos</button>
+          <button type="button" style="margin: 10px;" class="btn btn-danger" data-dismiss="modal" style="margin-left: 10px;">Close</button>
+        <!-- </form> -->
+      </div>
+    </div>
+  </div>
+
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <mat-toolbar>
+        <mat-toolbar-row>
+          <button mat-raised-button style="background-color: #00B5AD; color: white;" data-toggle="modal"
+            data-target="#crearProducto"><i class="ion-plus-circled"></i> Agregar producto</button>
+          <span class="spacer"></span>
+          <mat-form-field class="search">
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar...">
+          </mat-form-field>
+        </mat-toolbar-row>
+      </mat-toolbar>
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <ng-container matColumnDef="producto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Producto</th>
+            <td mat-cell *matCellDef="let data"> {{data.producto}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="costo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Costo </th>
+            <td mat-cell *matCellDef="let data"> {{data.costo}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cantidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad</th>
+            <td mat-cell *matCellDef="let data"> {{data.cantidad}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="opciones">
+            <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Opciones </th>
+            <td mat-cell *matCellDef="let data">
+              <div class="ui buttons">
+                <button class="ui teal button" data-toggle="modal"
+                data-target="#EditarPrecio" >Editar</button>
+              </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="25" [showFirstLastButtons]>
+        </mat-paginator>
+
+      </div>
+
+
+
+    </div>
+  </div>
+</section>

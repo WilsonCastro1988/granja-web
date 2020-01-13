@@ -1,0 +1,107 @@
+<div class="example-loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+
+<form class="ui form ui segment" id="add-form" [formGroup]="editEmpleadoForm" (ngSubmit)="onEditEmpleadoFormSubmit()"
+  style="margin: 0px auto;">
+
+  <h4 class="ui dividing header">Editar tipo de usuario</h4>
+  <div class="two fields" *ngFor="let item of empleadoData">
+    <div class="field">
+      <label>Tipo empleado</label>
+      <select formControlName="id_tipo_usuario" [(ngModel)]="item.id_tipo_usuario" class="ui fluid dropdown">
+        <option *ngFor="let item of tipos" [value]="item.id_tipo_usuario">{{item.tipo_usuario}}</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>Cédula</label>
+      <div class="field">
+        <input type="text" formControlName="cedula" maxlength="10" [(ngModel)]="item.cedula"
+          placeholder="Ingrese el numero de cedula">
+      </div>
+    </div>
+  </div>
+
+
+  <div class="three fields" *ngFor="let item of empleadoData">
+    <div class="field">
+      <label>Nombre</label>
+      <div class="field">
+        <input type="text" formControlName="nombre" [(ngModel)]="item.nombre" placeholder="Ingrese los nombres">
+      </div>
+    </div>
+    <div class="field">
+      <label>Apellido</label>
+      <div class="field">
+        <input type="text" formControlName="apellido" [(ngModel)]="item.apellido" placeholder="Ingrese los apellidos">
+      </div>
+    </div>
+    <div class="field">
+      <label>Teléfono</label>
+      <div class="field">
+        <input type="text" formControlName="telefono" [(ngModel)]="item.telefono" maxlength="10"
+          placeholder="09XXXXXXXX">
+      </div>
+    </div>
+  </div>
+  <div class="three fields" *ngFor="let item of empleadoData">
+    <div class="field">
+      <label>Sueldo</label>
+      <div class="ui right labeled input">
+        <input type="text" formControlName="sueldo" [(ngModel)]="item.sueldo" placeholder="Ingrese el Sueldo..">
+        <div class="ui basic label">
+          $$
+        </div>
+      </div>
+    </div>
+    <div class="field">
+      <label>Horas extras</label>
+      <div class="field">
+        <input type="number" formControlName="horas_extras" [(ngModel)]="item.horas_extras"
+          placeholder="Ingrese numero de horas extras">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Costo hora</label>
+      <div class="ui right labeled input">
+        <input type="text" formControlName="costo_hora" [(ngModel)]="item.costo_hora"
+          placeholder="Ingrese el costo hora..">
+        <div class="ui basic label">
+          $$
+        </div>
+      </div>
+    </div>
+  </div>
+  <p>
+    <button class="btn btn-danger" type="button" data-toggle="collapse" data-target="#collapseExample"
+      aria-expanded="false" aria-controls="collapseExample">
+      ¿El usuario usará el sistema?
+    </button>
+  </p>
+  <div class="collapse" id="collapseExample">
+    <div class="card card-body">
+      <div class="two fields" *ngFor="let item of empleadoData">
+        <div class="field">
+          <label>username</label>
+          <div class="field">
+            <input type="text" formControlName="username" [(ngModel)]="item.username"
+              placeholder="Solamente si es administrador del sistema">
+          </div>
+        </div>
+        <div class="field">
+          <label>Contraseña</label>
+          <div class="field">
+            <input type="password" formControlName="pass" [(ngModel)]="item.pass"
+              placeholder="Solamente si es administrador del sistema">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+
+  <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onClose()"
+    style="margin-right: 10px">Close</button>
+  <button class="btn btn-info" [disabled]="!editEmpleadoForm.valid" type="submit">Actualizar datos</button>
+</form>

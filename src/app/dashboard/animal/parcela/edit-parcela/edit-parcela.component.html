@@ -1,0 +1,15 @@
+<form class="ui form ui segment" id="add-form" [formGroup]="editParcelaForm" (ngSubmit)="onParcelaEditFormSubmit()" style="margin: 0px auto;">
+    <h4 class="ui dividing header">Editar parcela</h4>
+    <div class="field" *ngFor="let item of parcelaData">
+          <label>Lugar</label>
+          <div class="field">
+            <input type="text" formControlName="lugar"  [(ngModel)]="item.lugar">
+          </div>
+          <div class="field">
+              <label>Descripcion</label>
+              <textarea rows="2" formControlName="descripcion" [(ngModel)]="item.descripcion"></textarea>
+          </div>
+      </div>
+      <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onClose()" style="margin-right: 10px">Close</button>
+      <button class="btn btn-info" [disabled]="!editParcelaForm.valid" type="submit">Actualizar datos</button>
+  </form>

@@ -1,0 +1,21 @@
+<div class="example-loading-shade"
+      *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+
+<form class="ui form ui segment" id="add-form" [formGroup]="editRazaForm" (ngSubmit)="onRazaEditFormSubmit()" style="margin: 0px auto;">
+    <h4 class="ui dividing header">Editar raza</h4>
+    <div class="field" *ngFor="let item of razaData">
+          <label>Nombre</label>
+          <div class="field">
+            <input type="text" formControlName="tipo_raza"  [(ngModel)]="item.tipo_raza">
+          </div>
+          <div class="field">
+              <label>Descripcion</label>
+              <textarea rows="2" formControlName="descripcion" [(ngModel)]="item.descripcion"></textarea>
+          </div>
+      </div>
+      <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="onClose()" style="margin-right: 10px">Close</button>
+      <button class="btn btn-info" [disabled]="!editRazaForm.valid" type="submit">Actualizar datos</button>
+</form>
+

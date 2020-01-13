@@ -1,0 +1,235 @@
+<section class="content-header">
+  <h1>
+    Animales
+    <small>gestión de animales</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="dashboard"><i class="fa fa-user"></i> Home</a></li>
+    <li class="active">Animales</li>
+  </ol>
+</section>
+
+<div class="example-loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
+
+<div class="modal fade" id="modal-default">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <form class="ui form" [formGroup]="animalForm" (ngSubmit)="onFormSubmit(animalForm.value)">
+          <h4 class="ui dividing header">Gestión de animales</h4>
+          <div class="two fields">
+            <div class="field">
+              <label>Parcela</label>
+              <select class="ui fluid dropdown" formControlName="id_parcela">
+                <option value="">Seleccione una parcela...</option>
+                <option *ngFor="let item of dataParcelas" value="{{item.id_parcela}}">{{item.lugar}}</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Raza</label>
+              <select class="ui fluid dropdown" formControlName="id_raza">
+                <option value="">Seleccione una raza...</option>
+                <option *ngFor="let item of dataRazas" value="{{item.id_raza}}">{{item.tipo_raza}}</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <label>Nombre del animal</label>
+              <div class="field">
+                <input type="text" formControlName="nombre" placeholder="Ingrese el nombre del animal">
+              </div>
+            </div>
+            <div class="field">
+              <label>Fecha de nacimiento</label>
+              <div class="ui right labeled input">
+                <input type="date" formControlName="fecha_nacimiento" placeholder="Ingrese la fecha de nacimiento..">
+                <div class="ui basic label">
+                  DD/MM/AAA
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="two fields">
+              <div class="field">
+                  <label>Fecha de adquisición</label>
+                  <div class="ui right labeled input">
+                    <input type="date" formControlName="fecha_adquisicion" placeholder="Ingrese la fecha de adquisición..">
+                    <div class="ui basic label">
+                      DD/MM/AAA
+                    </div>
+                  </div>
+                </div>
+
+                <div class="field">
+                  <label>Peso Kg.</label>
+                  <div class="ui right labeled input">
+                    <input type="text" formControlName="peso" placeholder="Enter weight..">
+                    <div class="ui basic label">
+                      kg
+                    </div>
+                  </div>
+                </div>
+          </div>
+
+          <div class="two fields">
+            <div class="field">
+              <label>Descripción</label>
+              <textarea formControlName="descripcion" rows="2"></textarea>
+            </div>
+            <div class="field">
+              <label>Sexo</label>
+              <select class="ui fluid dropdown" formControlName="sexo">
+                <option value="">Sexo</option>
+                <option value="Macho">Macho</option>
+                <option value="Hembra">Hembra</option>
+              </select>
+            </div>
+          </div>
+          <div class="two fields">
+              <div class="field">
+                  <label>Foto</label>
+                  <div>
+                    <img [src]="url" height="100" *ngIf="url">
+                    <input formControlName="foto" type='file' accept="image/*" (change)="onSelectFile($event)">
+                  </div>
+                </div>
+                <div class="field">
+                  <label>Estado</label>
+                  <select class="ui fluid dropdown" formControlName="estado">
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                  </select>
+                </div>
+          </div>
+
+          <button class="btn btn-info" type="submit">Guardar datos</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" style="margin-left: 10px;">Close</button>
+        </form>
+      </div>
+    </div>
+    <!-- /.modal-content -->
+  </div>
+  <!-- /.modal-dialog -->
+</div>
+
+<section class="content">
+    <div class="row">
+      <div class="col-xs-12">
+        <mat-toolbar >
+          <mat-toolbar-row>
+            <button mat-raised-button style="background-color: #00B5AD; color: white;" data-toggle="modal" data-target="#modal-default"><i class="ion-plus-circled"></i> Agregar animal</button>
+            <span class="spacer"></span>
+            <mat-form-field class="search">
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar...">
+            </mat-form-field>
+          </mat-toolbar-row>
+        </mat-toolbar>
+        <div class="mat-elevation-z8">
+            <table mat-table [dataSource]="dataSource" matSort>
+
+                <ng-container matColumnDef="codigo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Código</th>
+                  <td mat-cell *matCellDef="let data"> {{data.id_arete}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                  <td mat-cell *matCellDef="let data"> {{data.nombre}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="raza">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Raza</th>
+                  <td mat-cell *matCellDef="let data"> {{data.id_raza}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha_adquisicion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha adquisición</th>
+                  <td mat-cell *matCellDef="let data"> {{data.fecha_adquisicion}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="fecha_nacimiento">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha nacimiento </th>
+                  <td mat-cell *matCellDef="let data"> {{data.fecha_nacimiento}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="peso">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Peso kg</th>
+                  <td mat-cell *matCellDef="let data"> {{data.peso}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="sexo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Sexo</th>
+                  <td mat-cell *matCellDef="let data"> {{data.sexo}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="opciones">
+                  <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Opciones </th>
+                  <td mat-cell *matCellDef="let data">
+                    <div class="ui buttons">
+                      <button class="ui teal button" (click)="editParcela(data.id_parcela)">Editar</button>
+                      <div class="or" data-text="o"></div>
+                      <button class="ui red button" (click)="deleteParcela(data.id_parcela)">Eliminar</button>
+                    </div>
+                  </td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+              </table>
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="25" [showFirstLastButtons]>
+              </mat-paginator>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<!-- <section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="box">
+        <div class="box-header">
+          <div class="box-title">
+            <button type="button" class="btn btn-primary btn-sm " data-toggle="modal" data-target="#modal-default">
+              <i class="ion-plus-circled"></i> Agregar animal
+            </button>
+          </div>
+        </div>
+        <div class="box-body table-responsive no-padding">
+          <table class="table table-hover">
+            <tr>
+              <th>Código</th>
+              <th>Nombre </th>
+              <th>Raza</th>
+              <th>Fecha de adquisición</th>
+              <th>Fecha de Nacimiento</th>
+              <th>Peso Kg</th>
+              <th>Sexo</th>
+              <th style="width: 100px">Opciones</th>
+            </tr>
+            <tr *ngFor="let item of data">
+              <td>Ani0{{item.id_arete}}</td>
+              <td>{{item.nombre}}</td>
+              <td>{{item.id_raza}}</td>
+              <td>{{item.fecha_adquisicion}}</td>
+              <td>{{item.fecha_nacimiento}}</td>
+              <td>{{item.peso}}</td>
+              <td>{{item.sexo}}</td>
+              <td style="width: 100px">
+                <div class="ui buttons">
+                  <button class="ui teal button">Editar</button>
+                  <div class="or" data-text="o"></div>
+                  <button class="ui red button">Eliminar</button>
+                </div>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</section> -->

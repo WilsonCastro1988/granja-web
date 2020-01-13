@@ -1,0 +1,140 @@
+<section class="content-header">
+  <h1>
+    Facturación
+    <small>nueva factura</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="dashboard"><i class="fa fa-user"></i> Home</a></li>
+    <li class="active">facturación</li>
+  </ol>
+</section>
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <div class="alert alert-danger" *ngIf="mensaje" role="alert">
+        {{mensaje}}
+      </div>
+
+      <div>
+        <h1  text-align: center>Hacienda la Laguna</h1>
+        <h4>Dirección: Julio Andrade km 2</h4>
+        <h4>Teléfono: 2290029</h4>
+      </div>
+      <h6 class="ui dividing header">Datos del cliente</h6>
+      <mat-toolbar>
+        <mat-toolbar-row>
+          <mat-form-field class="example-full-width">
+            <input matInput [(ngModel)]="cedula" placeholder="Cédula cliente">
+          </mat-form-field>
+          <button mat-raised-button style="background-color: #00B5AD; color: white; margin-left: 15px;"
+            (click)="getCliente()"><i class="ion-search"></i> Consultar</button>
+
+        </mat-toolbar-row>
+        <mat-toolbar-row>
+          <mat-form-field class="example-full-width">
+            <input matInput [(ngModel)]="nombre" placeholder="Nombre y apellido" disabled>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" style="margin-left: 20px;">
+            <input matInput [(ngModel)]="direccion" placeholder="Dirección" disabled>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" style="margin-left: 20px;">
+            <input matInput [(ngModel)]="telefono" placeholder="Teléfono" disabled>
+          </mat-form-field>
+          <mat-form-field class="example-full-width" style="margin-left: 20px;">
+            <input matInput [(ngModel)]="nroFactura" placeholder="Nro factura" disabled>
+          </mat-form-field>
+        </mat-toolbar-row>
+      </mat-toolbar>
+
+      <div class="field">
+        <label>Fecha de venta</label>
+        <div class="ui right labeled input">
+          <input type="date" placeholder="Ingrese la fecha de venta..">
+          <div class="ui basic label">
+            DD/MM/AAA
+          </div>
+        </div>
+      </div>
+
+
+      <h6 class="ui dividing header">Detalles de factura</h6>
+      <button mat-raised-button style="background-color: #00B5AD; color: white; margin-left: 15px;" data-toggle="modal"
+        data-target="#exampleModal"><i class="ion-plus-circled"></i> Agregar detalle</button>
+      <!-- <button class="mini teal ui button" (click)="openDialog()">Agregar detalles</button> -->
+      <table class="mini ui teal table">
+        <thead>
+          <tr>
+            <th>Id_prod</th>
+            <th>Cant</th>
+            <th>Detalle</th>
+            <th>P.unitario</th>
+            <th>P.total</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of detalles; index as i">
+            <td>{{ item.id_prod}}</td>
+            <td>{{item.cantidad}}</td>
+            <td>{{item.detalle}}</td>
+            <td>{{item.valor}}</td>
+            <td>{{item.valorT}}</td>
+            <td style="width: 80px;"><button class="mini red ui button" (click)="removeItem(i)">Quitar</button></td>
+          </tr>
+        </tbody>
+        <tfoot>
+          <tr>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th>TOTAL:</th>
+            <th>{{ totalFac }}</th>
+            <th></th>
+          </tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+              aria-hidden="true">&times;</span></button>
+          <h4 class="modal-title">Agregar detalles</h4>
+        </div>
+        <div class="modal-body">
+          <div class="input-group input-group-sm">
+            <span class="input-group-addon" id="sizing-addon3">Id_prod</span>
+            <input type="text" class="form-control" [(ngModel)]="id_prod"  aria-describedby="sizing-addon3">
+          </div><br>
+          <div class="input-group input-group-sm">
+            <span class="input-group-addon" id="sizing-addon3">Cantidad</span>
+            <input type="text" class="form-control" [(ngModel)]="cantidad"  aria-describedby="sizing-addon3">
+          </div> <br>
+          <div class="input-group input-group-sm">
+            <span class="input-group-addon" id="sizing-addon3">Detalle</span>
+            <input type="text" class="form-control" [(ngModel)]="detalle"  aria-describedby="sizing-addon3">
+          </div> <br>
+          <div class="input-group input-group-sm">
+            <span class="input-group-addon" id="sizing-addon3">Valor</span>
+            <input type="text" class="form-control" [(ngModel)]="valor"  aria-describedby="sizing-addon3">
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary" (click)="agregarDetalle()" >Agregar</button>
+        </div>
+      </div><!-- /.modal-content -->
+
+
+    </div><!-- /.modal-dialog -->
+  </div>
+
+    <div>
+
+      <button class="btn btn-info" type="submit">Guardar datos</button>
+
+    </div>
+
+</section>
