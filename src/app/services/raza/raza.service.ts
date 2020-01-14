@@ -11,7 +11,7 @@ const httpOptions = {
   headers: new HttpHeaders({'Content-Type': 'application/json'})
 };
 
-const Apiurl = 'http://localhost:8080/servicio-granja/public/';
+const Apiurl ="http://localhost/granja-servicio/public/"
 
 @Injectable({
   providedIn: 'root'

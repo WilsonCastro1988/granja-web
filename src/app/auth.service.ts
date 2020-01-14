@@ -12,7 +12,7 @@ const httpOptions = {
     providedIn: 'root'
 })
 export class AuthService {
-    private url = 'http://localhost:8080/servicio-granja/public/login';
+    private url = 'http://localhost/granja-servicio/public/login';
 
     constructor(private http: HttpClient, private router: Router) {
     }
