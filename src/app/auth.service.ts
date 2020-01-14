@@ -24,6 +24,7 @@ export class AuthService {
               if (user && user.token) {
                 console.log('DATOS LLENOS');
                   // store user details and jwt token in local storage to keep user logged in between page refreshes
+                  localStorage.setItem('id_empleado', user.id_empleado);
                   localStorage.setItem('token', user.token);
                   localStorage.setItem('username', user.username);
                   localStorage.setItem('tipo_usuario', user.id_tipo_usuario);

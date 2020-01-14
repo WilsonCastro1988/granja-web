@@ -3,6 +3,10 @@
     Facturación
     <small>nueva factura</small>
   </h1>
+  <h1>
+    Empleado
+    <small>{{id_empleado}}</small>
+  </h1>
   <ol class="breadcrumb">
     <li><a routerLink="dashboard"><i class="fa fa-user"></i> Home</a></li>
     <li class="active">facturación</li>
@@ -49,7 +53,8 @@
       <div class="field">
         <label>Fecha de venta</label>
         <div class="ui right labeled input">
-          <input type="date" placeholder="Ingrese la fecha de venta..">
+          
+          <input  matInput [(ngModel)]="fechaVenta" type="datetime-local"  placeholder="Ingrese la fecha de venta..">
           <div class="ui basic label">
             DD/MM/AAA
           </div>
@@ -133,7 +138,7 @@
 
     <div>
 
-      <button class="btn btn-info" type="submit">Guardar datos</button>
+      <button class="btn btn-info" type="button" (click)="agregarFactura()">Guardar datos</button>
 
     </div>
 

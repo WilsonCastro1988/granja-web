@@ -1,23 +1,23 @@
 <section class="content-header">
-    <h1>
-      Facturas
-      <small>lista de facturas</small>
-    </h1>
-    <ol class="breadcrumb">
-      <li><a routerLink="dashboard"><i class="fa fa-user"></i> Home</a></li>
-      <li class="active">lista facturas</li>
-    </ol>
-  </section>
+  <h1>
+    Facturas
+    <small>lista de facturas</small>
+  </h1>
+  <ol class="breadcrumb">
+    <li><a routerLink="dashboard"><i class="fa fa-user"></i> Home</a></li>
+    <li class="active">lista facturas</li>
+  </ol>
+</section>
 
-  <div class="example-loading-shade" *ngIf="isLoadingResults">
-    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
-  </div>
+<div class="example-loading-shade" *ngIf="isLoadingResults">
+  <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+</div>
 
 
-  <section class="content">
-    <div class="row">
-      <div class="col-xs-12">
-        <!-- <mat-toolbar>
+<section class="content">
+  <div class="row">
+    <div class="col-xs-12">
+      <!-- <mat-toolbar>
           <mat-toolbar-row>
             <button mat-raised-button style="background-color: #00B5AD; color: white;" data-toggle="modal"
               data-target="#modal-default"><i class="ion-plus-circled"></i> Agregar parcela</button>
@@ -27,45 +27,108 @@
             </mat-form-field>
           </mat-toolbar-row>
         </mat-toolbar> -->
-        <div class="mat-elevation-z8">
-          <table mat-table [dataSource]="dataSource" matSort>
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
 
-            <ng-container matColumnDef="id_factura">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Id_factura</th>
-              <td mat-cell *matCellDef="let data"> {{data.id_factura}} </td>
-            </ng-container>
+          <ng-container matColumnDef="id_factura">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Id_factura</th>
+            <td mat-cell *matCellDef="let data"> {{data.id_factura}} </td>
+          </ng-container>
 
-            <ng-container matColumnDef="id_cliente">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
-              <td mat-cell *matCellDef="let data"> {{data.id_cliente}} </td>
-            </ng-container>
+          <ng-container matColumnDef="id_cliente">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cliente </th>
+            <td mat-cell *matCellDef="let data"> {{data.id_cliente}} </td>
+          </ng-container>
 
-            <ng-container matColumnDef="valor">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor</th>
-              <td mat-cell *matCellDef="let data"> {{data.valor}} </td>
-            </ng-container>
+          <ng-container matColumnDef="valor">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha</th>
+            <td mat-cell *matCellDef="let data"> {{data.fecha}} </td>
+          </ng-container>
 
-            <ng-container matColumnDef="estado">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado</th>
-                <td mat-cell *matCellDef="let data"> {{data.estado}} </td>
-              </ng-container>
+          <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Total</th>
+            <td mat-cell *matCellDef="let data"> {{data.precio_total}} </td>
+          </ng-container>
 
-            <ng-container matColumnDef="detalles">
-              <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Detalles </th>
-              <td mat-cell *matCellDef="let data">
-                <div class="ui buttons">
-                  <button class="ui teal button" (click)="editParcela(data.id_parcela)">Ver detalles</button>
-                </div>
-              </td>
-            </ng-container>
+          <ng-container matColumnDef="detalles">
+            <th mat-header-cell *matHeaderCellDef style="width: 100px;"> Detalles </th>
+            <td mat-cell *matCellDef="let data">
+              <div class="ui buttons">
+                <button (click)="verDetalle(data.id_factura)" mat-raised-button
+                  style="background-color: #00B5AD; color: white; margin-left: 15px;" data-toggle="modal"
+                  data-target="#exampleModal"><i class="ion-plus-circled"></i> Ver detalle</button>
+              </div>
+            </td>
+          </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
-          </table>
-          <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="25" [showFirstLastButtons]>
-          </mat-paginator>
-        </div>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 50, 100]" [pageSize]="25" [showFirstLastButtons]>
+        </mat-paginator>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+            aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Detalles de Factura # {{idFactura}}</h4>
+      </div>
+      <div class="modal-body">
+        <table mat-table [dataSource]="dataSourceDetalle" matSort>
+
+          <ng-container matColumnDef="id_detalle">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Id_detalle</th>
+            <td mat-cell *matCellDef="let data"> {{data.id_detalle}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="id_factura">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Factura </th>
+            <td mat-cell *matCellDef="let data"> {{data.id_factura}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="id_arete">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Id Producto</th>
+            <td mat-cell *matCellDef="let data"> {{data.nombre}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="descripcion">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripción</th>
+            <td mat-cell *matCellDef="let data"> {{data.descripcion}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="cantidad">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Cantidad</th>
+            <td mat-cell *matCellDef="let data"> {{data.cantidad}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="p_unitario">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor U.</th>
+            <td mat-cell *matCellDef="let data"> {{data.p_unitario}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="p_total">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Valor T.</th>
+            <td mat-cell *matCellDef="let data"> {{data.p_total}} </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumnsDetalle"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsDetalle;"></tr>
+
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+      </div>
+    </div><!-- /.modal-content -->
+
+
+  </div><!-- /.modal-dialog -->
+</div>
